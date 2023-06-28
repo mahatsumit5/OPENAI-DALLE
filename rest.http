@@ -1,0 +1,11 @@
+###post method
+@url=http://localhost:8000
+
+POST {{url}}
+Content-Type: application/json
+
+{
+"prompt":"A picture of Nepal",
+"n":1,
+"size":"256x256"
+}
