@@ -13,13 +13,13 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  return res.status(201).json({
+  res.status(201).json({
     status: "sucess",
     mesage: "Server is up and running",
   });
 });
 
-app.post("/", async (req, res) => {
+app.post("/request", async (req, res) => {
   try {
     const { prompt, number, size } = req.body;
     const configuration = new Configuration({
