@@ -20,21 +20,35 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-  const { prompt, n, size } = req.body;
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
-  const response = await openai.createImage({
-    prompt: prompt,
-    n: n,
-    size: size,
-  });
-  const image_url = response.data.data;
-  res.json({
-    status: "Image link created",
-    url: image_url,
-  });
+  try {
+    const { prompt, number, size } = req.body;
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(configuration);
+    const response = await openai.createImage({
+      prompt: prompt,
+      n: number,
+      size: size,
+    });
+    const image_url = response.data.data;
+
+    response
+      ? res.json({
+          status: "success",
+          message: "Image Sucessufullycreated",
+          url: image_url,
+        })
+      : res.json({
+          status: "error",
+          message: "Unable to Create Image",
+        });
+  } catch (error) {
+    const { message } = error;
+    res.json({
+      status: message,
+    });
+  }
 });
 
 app.listen(PORT, (req, res) => {
