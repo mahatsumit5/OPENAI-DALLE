@@ -1,4 +1,3 @@
-import nodemon from "nodemon";
 import cors from "cors";
 import { Configuration, OpenAIApi } from "openai";
 import express from "express";
@@ -19,7 +18,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/request", async (req, res) => {
+app.post("/", async (req, res) => {
   try {
     const { prompt, number, size } = req.body;
     const configuration = new Configuration({
@@ -32,7 +31,7 @@ app.post("/request", async (req, res) => {
       size: size,
     });
     const image_url = response.data.data;
-
+    console.log(response);
     response
       ? res.json({
           status: "success",
@@ -46,7 +45,7 @@ app.post("/request", async (req, res) => {
   } catch (error) {
     const { message } = error;
     res.json({
-      status: message,
+      error,
     });
   }
 });
