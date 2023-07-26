@@ -2,14 +2,16 @@ import cors from "cors";
 import { Configuration, OpenAIApi } from "openai";
 import express from "express";
 import * as dotenv from "dotenv";
+import path from "path";
 dotenv.config();
-
+const _dirName = path.resolve();
 const PORT = process.env.port || 8000;
 const app = express();
 
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static(_dirName + "/build"));
 
 app.get("/", (req, res) => {
   res.status(201).json({
@@ -18,7 +20,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/", async (req, res) => {
+app.post("/generations", async (req, res) => {
   try {
     const { prompt, number, size } = req.body;
     const configuration = new Configuration({
@@ -31,7 +33,6 @@ app.post("/", async (req, res) => {
       size: size,
     });
     const image_url = response.data.data;
-    console.log(response);
     response
       ? res.json({
           status: "success",
@@ -46,8 +47,12 @@ app.post("/", async (req, res) => {
     const { message } = error;
     res.json({
       error,
+      message,
     });
   }
+});
+app.use("/", (req, res) => {
+  res.sendFile("/index.html");
 });
 
 app.listen(PORT, (req, res) => {

@@ -1,11 +1,11 @@
 ###post method
-@url=http://localhost:8000
-@u=https://dalle-z6rw.onrender.com/
+@url=http://localhost:8000/generations
+@u=https://dalle-z6rw.onrender.com/generations
 POST {{url}}
 Content-Type: application/json
 
 {
-"prompt":"A picture of Nepal",
-"number":2,
+"prompt":"Nepal",
+"number":1,
 "size":"256x256"
 }
