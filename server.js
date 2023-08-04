@@ -13,13 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(_dirName + "/build"));
 
-app.get("/", (req, res) => {
-  res.status(201).json({
-    status: "sucess",
-    mesage: "Server is up and running",
-  });
-});
-
 app.post("/generations", async (req, res) => {
   try {
     const { prompt, number, size } = req.body;
@@ -52,9 +45,9 @@ app.post("/generations", async (req, res) => {
   }
 });
 app.use("/", (req, res) => {
-  res.sendFile("/index.html");
+  res.sendFile(_dirName + "/build/index.html");
 });
 
 app.listen(PORT, (req, res) => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port localhost:${PORT}`);
 });
